@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		049FD4851B60B80400FAD3DF /* checker.png in Resources */ = {isa = PBXBuildFile; fileRef = 049FD4841B60B80400FAD3DF /* checker.png */; };
+		049FD4871B60D8BF00FAD3DF /* phong.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 049FD4861B60D8BE00FAD3DF /* phong.fsh */; };
+		049FD4891B60D8CA00FAD3DF /* pong.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 049FD4881B60D8CA00FAD3DF /* pong.vsh */; };
 		04B334CC1B5F50A500DB8879 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B334CB1B5F50A500DB8879 /* Foundation.framework */; };
 		04B334CE1B5F50A500DB8879 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B334CD1B5F50A500DB8879 /* CoreGraphics.framework */; };
 		04B334D01B5F50A500DB8879 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04B334CF1B5F50A500DB8879 /* UIKit.framework */; };
@@ -40,6 +43,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		049FD4841B60B80400FAD3DF /* checker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = checker.png; sourceTree = "<group>"; };
+		049FD4861B60D8BE00FAD3DF /* phong.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = phong.fsh; sourceTree = "<group>"; };
+		049FD4881B60D8CA00FAD3DF /* pong.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = pong.vsh; sourceTree = "<group>"; };
 		04B334C81B5F50A500DB8879 /* IOS_OpengGL_Test2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IOS_OpengGL_Test2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		04B334CB1B5F50A500DB8879 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		04B334CD1B5F50A500DB8879 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -98,6 +104,8 @@
 		04B334BF1B5F50A400DB8879 = {
 			isa = PBXGroup;
 			children = (
+				049FD4881B60D8CA00FAD3DF /* pong.vsh */,
+				049FD4861B60D8BE00FAD3DF /* phong.fsh */,
 				04B334D11B5F50A500DB8879 /* IOS_OpengGL_Test2 */,
 				04B334F01B5F50A600DB8879 /* IOS_OpengGL_Test2Tests */,
 				04B334CA1B5F50A500DB8879 /* Frameworks */,
@@ -128,6 +136,7 @@
 		04B334D11B5F50A500DB8879 /* IOS_OpengGL_Test2 */ = {
 			isa = PBXGroup;
 			children = (
+				049FD4841B60B80400FAD3DF /* checker.png */,
 				04B334DA1B5F50A500DB8879 /* AppDelegate.h */,
 				04B334DB1B5F50A500DB8879 /* AppDelegate.m */,
 				04B3350A1B5F5C2B00DB8879 /* GLTexture.h */,
@@ -254,10 +263,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				049FD4891B60D8CA00FAD3DF /* pong.vsh in Resources */,
 				04B335101B5F5C6800DB8879 /* DieTexture.png in Resources */,
 				04B334E41B5F50A500DB8879 /* Images.xcassets in Resources */,
 				04B335121B5F5C6800DB8879 /* Shader.vsh in Resources */,
 				04B334D61B5F50A500DB8879 /* InfoPlist.strings in Resources */,
+				049FD4871B60D8BF00FAD3DF /* phong.fsh in Resources */,
+				049FD4851B60B80400FAD3DF /* checker.png in Resources */,
 				04B335111B5F5C6800DB8879 /* Shader.fsh in Resources */,
 				04B335141B5F5FDF00DB8879 /* GLViewController.xib in Resources */,
 			);
@@ -480,6 +492,7 @@
 				04B334FC1B5F50A600DB8879 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		04B334FD1B5F50A600DB8879 /* Build configuration list for PBXNativeTarget "IOS_OpengGL_Test2Tests" */ = {
 			isa = XCConfigurationList;
@@ -488,6 +501,7 @@
 				04B334FF1B5F50A600DB8879 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

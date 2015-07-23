@@ -11,8 +11,12 @@
     GLuint      textureCoordinateAttribute;
     GLuint      matrixUniform;
     GLuint      textureUniform;
+    GLuint      textureUniform2;
+    GLuint      blendmode;
+    GLuint      res;
     
-    Matrix3D    IdentityMatrix;
+    
+    Matrix3D    scale;
     Matrix3D    rotationMatrix; 
     Matrix3D    translationMatrix;
     Matrix3D    modelViewMatrix;
@@ -27,7 +31,7 @@
 // END:extension
 
 @implementation GLViewController
-@synthesize program, texture;
+@synthesize program, texture,obj_texture;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -70,15 +74,22 @@
     textureCoordinateAttribute = [program attributeIndex:@"textureCoordinates"];
     matrixUniform = [program uniformIndex:@"matrix"];
     textureUniform = [program uniformIndex:@"texture"];
+    textureUniform2 = [program uniformIndex:@"texture2"];
+    blendmode=[program uniformIndex:@"blendMode"];
+    res=[self.program uniformIndex:@"uResolution"];
 
     glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ZERO);
+//    glBlendFunc(GL_ONE, GL_ZERO);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
     GLTexture *theTexture = [[GLTexture alloc] initWithFilename:@"DieTexture.png"];
-    self.texture = theTexture;
+    self.obj_texture = theTexture;
+    
+    GLTexture *theTexture2 = [[GLTexture alloc] initWithFilename:@"checker.png"];
+    self.texture = theTexture2;
    
     
 }
@@ -98,7 +109,7 @@
         
     };
     
-    static const TextureCoord plane_texCod[] =
+    static  TextureCoord plane_texCod[] =
     {
         {1,0},
         {1,1},
@@ -241,51 +252,55 @@
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     [self.program use];
     
-    glPushMatrix();
+ //-----------///draw icosahedran
     
-    glVertexAttribPointer(positionAttribute, 3, GL_FLOAT, 0, 0, vertices);
-    glEnableVertexAttribArray(positionAttribute);
-    
-    glVertexAttribPointer(textureCoordinateAttribute, 2, GL_FLOAT, 0, 0, textureCoordinates);
-    glEnableVertexAttribArray(textureCoordinateAttribute);
-    
-    static const Vector3D rotationVector = {1.f, 1.f, 1.f};
-    Matrix3DSetRotationByDegrees(rotationMatrix, rot, rotationVector);
-    Matrix3DSetTranslation(translationMatrix, 0.f, 0.f, -3.f);
-//  Matrix3DMultiply(translationMatrix, rotationMatrix, modelViewMatrix);
-    Matrix3DSetIdentity(IdentityMatrix);
-    Matrix3DSetUniformScaling(IdentityMatrix, 0.2);
-    Matrix3DMultiply(translationMatrix,IdentityMatrix, modelViewMatrix);
-    
-    
-    static const Vector3D target = {0.f, 0.f, 0.f};
-    static const Vector3D camPos = {-3.f, -3.f, -3.f};
-    Vector3D targetVec= Vector3DMakeNormalizedVectorWithStartAndEndPoints(target, camPos);
-    Vector3D rightVec=Vector3DCrossProduct(targetVec, Vector3DMake(0, 1, 0));
-    Vector3DNormalize(&rightVec);
-    Vector3D upVec=Vector3DCrossProduct(rightVec,targetVec);
-    Vector3DNormalize(&upVec);
-    Vector2Matrix3D(rightVec, upVec, targetVec, lookAt);
-    
-//    Matrix3DSetTranslation(modelViewMatrix, -3, -3, -3);
-//    Matrix3DMultiply(lookAt, IdentityMatrix, modelViewMatrix);
-    
-    Matrix3DSetPerspectiveProjectionWithFieldOfView(projectionMatrix, 45.f, 
-                                                 0.1f, 100.f, 
-                                                 self.view.frame.size.width / 
-                                                 self.view.frame.size.height);
-    
-    
-    Matrix3DMultiply(projectionMatrix, modelViewMatrix, matrix);
-    glUniformMatrix4fv(matrixUniform, 1, FALSE, matrix);
-    
-    glActiveTexture (GL_TEXTURE0);
-    [texture use];
-    glUniform1i (textureUniform, 0);
-    
-    glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / sizeof(Vertex3D));
-    
-    glPopMatrix();
+//    glPushMatrix();
+//    
+//    glVertexAttribPointer(positionAttribute, 3, GL_FLOAT, 0, 0, vertices);
+//    glEnableVertexAttribArray(positionAttribute);
+//    
+//    glVertexAttribPointer(textureCoordinateAttribute, 2, GL_FLOAT, 0, 0, textureCoordinates);
+//    glEnableVertexAttribArray(textureCoordinateAttribute);
+//    
+//    static const Vector3D rotationVector = {1.f, 1.f, 1.f};
+//    Matrix3DSetRotationByDegrees(rotationMatrix, rot, rotationVector);
+//    Matrix3DSetTranslation(translationMatrix, 0.f, 0.f, -3.f);
+////  Matrix3DMultiply(translationMatrix, rotationMatrix, modelViewMatrix);
+//    Matrix3DSetIdentity(IdentityMatrix);
+//    Matrix3DSetUniformScaling(IdentityMatrix, 0.5);
+//    Matrix3DMultiply(translationMatrix,IdentityMatrix, modelViewMatrix);
+//    
+//    
+//    static const Vector3D target = {0.f, 0.f, 0.f};
+//    static const Vector3D camPos = {3.f, 3.f, 3.f};
+//    Vector3D targetVec= Vector3DMakeNormalizedVectorWithStartAndEndPoints(target, camPos);
+//    Vector3D rightVec=Vector3DCrossProduct(targetVec, Vector3DMake(0, 1, 0));
+//    Vector3DNormalize(&rightVec);
+//    Vector3D upVec=Vector3DCrossProduct(rightVec,targetVec);
+//    Vector3DNormalize(&upVec);
+//    Vector2Matrix3D(rightVec, upVec, targetVec, lookAt);
+//    
+////    Matrix3DSetTranslation(modelViewMatrix, -3, -3, -3);
+////    Matrix3DMultiply(lookAt, IdentityMatrix, modelViewMatrix);
+//    
+//    Matrix3DSetPerspectiveProjectionWithFieldOfView(projectionMatrix, 90.f,
+//                                                 0.1f, 1000.f,
+//                                                 self.view.frame.size.width / 
+//                                                 self.view.frame.size.height);
+//    
+//    
+//    Matrix3DMultiply(projectionMatrix, modelViewMatrix, matrix);
+//    glUniformMatrix4fv(matrixUniform, 1, FALSE, matrix);
+//    
+//    glActiveTexture (GL_TEXTURE0);
+//    [obj_texture use];
+//    glUniform1i (textureUniform, 0);
+//    
+//
+//    
+//    glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices) / sizeof(Vertex3D));
+//    
+//    glPopMatrix();
     
     
     /*!
@@ -298,20 +313,53 @@
     glVertexAttribPointer(positionAttribute, 3, GL_FLOAT, 0, 0, plane);
     glEnableVertexAttribArray(positionAttribute);
     
+//    int scalefactor=3;
+//    for (int i=0; i<6; i++) {
+//        if (plane_texCod[i].s!=0) {
+//            plane_texCod[i].s=scalefactor;
+//        }
+//        if (plane_texCod[i].t!=0) {
+//            plane_texCod[i].t=scalefactor;
+//        }
+//       
+//    }
+    
+    
     glVertexAttribPointer(textureCoordinateAttribute, 2, GL_FLOAT, 0, 0, plane_texCod);
     glEnableVertexAttribArray(textureCoordinateAttribute);
     
-    Matrix3DSetIdentity(IdentityMatrix);
-    Matrix3DSetUniformScaling(IdentityMatrix, 200);
-    Matrix3DSetXRotationUsingDegrees(IdentityMatrix, -9);
-    Matrix3DSetTranslation(translationMatrix, 0.f, -1.f, -3.f);
-    Matrix3DMultiply(translationMatrix,IdentityMatrix, modelViewMatrix);
+    Matrix3D rotat,temp;
+    Matrix3DSetIdentity(scale);
+    Matrix3DSetIdentity(rotat);
+    Matrix3DSetIdentity(temp);
+    //scale
+    Matrix3DSetUniformScaling(scale, 1);
+    //rotate anti clockwise negative
+    Matrix3DSetXRotationUsingDegrees(rotat, -90);
+    //translation
+    Matrix3DSetTranslation(translationMatrix, 0.f, -0.f, -25.f);
+    
+    Matrix3DMultiply(scale,rotat, temp);
+    Matrix3DMultiply(translationMatrix,temp, modelViewMatrix);
     
     
-    Matrix3DSetPerspectiveProjectionWithFieldOfView(projectionMatrix, 45.f,
-                                                    0.1f, 10000.f,
-                                                    (self.view.frame.size.width*15 )/
-                                                    (self.view.frame.size.height*15));
+//    static const Vector3D target = {0.f, 0.f, 0.f};
+//    static const Vector3D camPos = {3.f, 3.f, 3.f};
+//    Vector3D targetVec= Vector3DMakeNormalizedVectorWithStartAndEndPoints(target, camPos);
+//    Vector3D rightVec=Vector3DCrossProduct(targetVec, Vector3DMake(0, 1, 0));
+//    Vector3DNormalize(&rightVec);
+//    Vector3D upVec=Vector3DCrossProduct(rightVec,targetVec);
+//    Vector3DNormalize(&upVec);
+//    Vector2Matrix3D(rightVec, upVec, targetVec, lookAt);
+//    
+//    Matrix3DSetTranslation(translationMatrix, -3, -3, -3);
+//    Matrix3DMultiply(lookAt, translationMatrix, temp);
+//     Matrix3DMultiply(scale,translationMatrix, modelViewMatrix);
+    
+    Matrix3DSetPerspectiveProjectionWithFieldOfView(projectionMatrix, 5.f,
+                                                    0.1f, 1000.f,
+                                                    (self.view.frame.size.width )/
+                                                    (self.view.frame.size.height));
     
     
     Matrix3DMultiply(projectionMatrix, modelViewMatrix, matrix);
@@ -320,6 +368,14 @@
     glActiveTexture (GL_TEXTURE0);
     [texture use];
     glUniform1i (textureUniform, 0);
+    glActiveTexture (GL_TEXTURE1);
+    [obj_texture use];
+    
+    glUniform1i (textureUniform2, 1);
+    
+    glUniform1i(blendmode, 3);
+    int resolute[2]={320,568};
+    glUniform2iv(res, 1,resolute);
     
     glDrawArrays(GL_TRIANGLES, 0, sizeof(plane) / sizeof(Vertex3D));
     

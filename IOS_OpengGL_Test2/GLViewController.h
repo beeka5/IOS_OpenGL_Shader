@@ -9,6 +9,7 @@
 }
 @property (nonatomic, retain) GLProgram *program;
 @property (nonatomic, retain) GLTexture *texture;
+@property (nonatomic, retain) GLTexture *obj_texture;
 - (void)draw;
 - (void)setup;
 @end
