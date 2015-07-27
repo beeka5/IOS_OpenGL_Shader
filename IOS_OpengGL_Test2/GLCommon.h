@@ -100,6 +100,16 @@ typedef struct {
     GLfloat alpha;
 } Color;
 typedef GLfloat Matrix3D[16];
+static inline void GLKMatrix2Matrix3D(GLKMatrix4 glkMat,Matrix3D matrix)
+{
+    
+    matrix[0]=glkMat.m00;  matrix[1]=glkMat.m01 ; matrix[2]=glkMat.m02 ; matrix[3] = glkMat.m03;
+    matrix[4]=glkMat.m10 ; matrix[5]=glkMat.m11 ; matrix[6]=glkMat.m12 ; matrix[7] = glkMat.m13;
+    matrix[8]=glkMat.m20 ; matrix[9]=glkMat.m21 ; matrix[10]=glkMat.m22 ; matrix[11] =glkMat.m23;
+    matrix[12]=glkMat.m30 ; matrix[13]=glkMat.m31 ; matrix[14]=glkMat.m32 ; matrix[15] = glkMat.m33;
+    
+    
+}
 static inline void Matrix3DSetIdentity(Matrix3D matrix)
 {
     matrix[0] = matrix[5] = matrix[10] = matrix[15] = 1.0;
@@ -309,10 +319,10 @@ static inline void Matrix3DSetPerspectiveProjectionWithFieldOfView
 }
 static inline void Vector2Matrix3D(Vector3D U, Vector3D V,Vector3D N, Matrix3D m){
     
-    m[0] = U.x; m[1] = U.y; m[2] = U.z; m[3] = 0.0f;
-    m[1] = V.x; m[1] = V.y; m[1] = V.z; m[3] = 0.0f;
-    m[2] = N.x; m[2] = N.y; m[2] = N.z; m[3] = 0.0f;
-    m[3] = 0.0f; m[3] = 0.0f; m[3] = 0.0f; m[3] = 1.0f;
+    m[0] = U.x; m[1] = V.x; m[2] = N.x; m[3] = 0.0f;
+    m[4] = U.y; m[5] = V.y; m[6] = N.y; m[7] = 0.0f;
+    m[8] = U.z; m[9] = V.z; m[10] = N.z; m[11] = 0.0f;
+    m[12] = 0.0f; m[13] = 0.0f; m[14] = 0.0f; m[15] = 1.0f;
     
 }
 

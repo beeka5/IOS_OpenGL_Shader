@@ -11,10 +11,16 @@
     GLuint              frameBuffer; 
     GLuint              renderBuffer;
     GLuint              depthBuffer;
+    CGPoint             startPt;
 }
 @property (nonatomic, getter=isAnimating) BOOL animating;
 @property (nonatomic, retain) EAGLContext *context;
 @property (nonatomic, retain) CADisplayLink *displayLink;
+
+- (IBAction)moveForward:(UIButton *)sender;
+- (IBAction)moveRight:(UIButton *)sender;
+- (IBAction)moveLeft:(UIButton *)sender;
+- (IBAction)moveDown:(UIButton *)sender;
 - (void)drawView;
 @end
 
@@ -47,6 +53,7 @@
         controller=del.rootController;
         animating = NO;
         animationFrameInterval = 2;
+       
     }
     return self;
 }
@@ -79,6 +86,22 @@
         glDeleteRenderbuffers(1, &depthBuffer);
         depthBuffer = 0;
     }
+}
+
+- (IBAction)moveForward:(UIButton *)sender {
+    [controller moveF];
+}
+
+- (IBAction)moveRight:(UIButton *)sender {
+    [controller moveR];
+}
+
+- (IBAction)moveLeft:(UIButton *)sender {
+    [controller moveL];
+}
+
+- (IBAction)moveDown:(UIButton *)sender {
+    [controller moveB];
 }
 
 - (void)drawView
@@ -173,6 +196,27 @@
     [displayLink invalidate];
      displayLink = nil;
     
+    
+}
+
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    UITouch *touch=[[touches allObjects] objectAtIndex:0];
+    startPt=[touch locationInView:self];
+    
+}
+-(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event{
+    UITouch *touch=[[touches allObjects] objectAtIndex:0];
+    CGPoint newPt=[touch locationInView:self];
+    GLKVector2 change;
+    change.x=newPt.x-startPt.x;
+    change.y=newPt.y-startPt.y;
+    
+    [controller rotateH:change];
+    
+    startPt=newPt;
+    
+}
+-(void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
     
 }
 @end

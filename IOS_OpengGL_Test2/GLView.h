@@ -7,8 +7,10 @@
 @class GLViewController;
 
 @interface GLView : UIView
-{        
+{
+    
 }
+
 @property (nonatomic, retain) GLViewController *controller;
 @property (readonly, nonatomic, getter=isAnimating) BOOL animating;
 @property (nonatomic) NSInteger animationFrameInterval;

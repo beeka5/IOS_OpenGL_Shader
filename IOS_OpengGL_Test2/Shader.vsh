@@ -1,11 +1,12 @@
 attribute vec4 position;
 attribute vec2 textureCoordinates;
-uniform mat4 matrix;
+uniform mat4 modelViewMatrix;
+uniform mat4 projectionMatrix;
 varying vec2 fragmentTextureCoordinates;
-#define add(a, b) ( a+b )
+
 void main()
 {
-    gl_Position = matrix * position;
-    fragmentTextureCoordinates =textureCoordinates.xy*2.;
+    gl_Position = projectionMatrix * modelViewMatrix * position;
+    fragmentTextureCoordinates =textureCoordinates;
     
 }

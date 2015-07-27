@@ -24,7 +24,7 @@ void main()
     
     if (blendMode == kBlendModeDifference) {
     
-        gl_FragColor = abs( destColor - sourceColor );
+        gl_FragColor = sourceColor;
         
     } else if (blendMode == kBlendModeOverlay) {
     
@@ -39,7 +39,7 @@ void main()
     } else { // normal blending
 //
         //direct color filling
-//        gl_FragColor = vec4(0.,5,0.,1.0);
+        gl_FragColor = vec4(255,255,255,1.0);
         
 //      fill gradient
 //       lowp vec2 position =  gl_FragCoord.xy/uResolution;
@@ -47,20 +47,20 @@ void main()
 //        gl_FragColor = vec4(0., fragmentTextureCoordinates.x, 0., 1.);
 
 //        create circle fill
-       lowp vec2 center = vec2(0.5, 0.5);
-        
-        // 2
-       lowp float radius = 0.5;
-        
-        // 3
-       lowp vec2 position = fragmentTextureCoordinates.xy-center;
-        
-        // 4
-        if (length(position) > radius) {
-            gl_FragColor = vec4(vec3(0.), 1.);
-        } else {
-            gl_FragColor = vec4(vec3(1.), 1.);
-        }
+//       lowp vec2 center = vec2(0.5, 0.5);
+//        
+//        // 2
+//       lowp float radius = 0.5;
+//        
+//        // 3
+//       lowp vec2 position = fragmentTextureCoordinates.xy-center;
+//        
+//        // 4
+//        if (length(position) > radius) {
+//            gl_FragColor = vec4(vec3(0.), 1.);
+//        } else {
+//            gl_FragColor = vec4(vec3(1.), 1.);
+//        }
 //
     }
 }
